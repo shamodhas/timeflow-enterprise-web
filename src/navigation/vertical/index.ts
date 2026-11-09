@@ -6,6 +6,7 @@ import {
   Upload,
   MapPinned,
   CalendarDays,
+  Database,
   type LucideIcon
 } from "lucide-react"
 import type { UserRole } from "../../types/auth"
@@ -44,6 +45,12 @@ export const navigationConfig: NavItem[] = [
     path: "/app/admin/holidays",
     icon: CalendarDays,
     roles: ["SUPER_ADMIN", "ADMIN", "HR"]
+  },
+  {
+    name: "SaaS & BYOD DB",
+    path: "/app/admin/tenants",
+    icon: Database,
+    roles: ["SUPER_ADMIN", "ADMIN"]
   },
   {
     name: "Data Import",
