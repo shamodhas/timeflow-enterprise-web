@@ -120,17 +120,24 @@ export const TenantOnboarding = () => {
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 py-10 px-4 flex flex-col items-center justify-center transition-colors">
       <div className="w-full max-w-3xl rounded-3xl bg-white dark:bg-slate-900 p-6 sm:p-10 shadow-xl border border-slate-200/80 dark:border-slate-800">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b border-slate-100 dark:border-slate-800">
-          <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 text-xs font-bold uppercase tracking-wider mb-2">
-              <Zap size={14} />
-              Multi-Tenant SaaS Onboarding
+          <div className="flex items-start gap-4">
+            <img
+              src="/timeflow-logo.png"
+              alt="TimeFlow Enterprise"
+              className="h-14 w-14 rounded-2xl shadow-md object-contain shrink-0 mt-1"
+            />
+            <div>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 text-xs font-bold uppercase tracking-wider mb-2">
+                <Zap size={14} />
+                Multi-Tenant SaaS Onboarding
+              </div>
+              <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
+                Create Isolated Organization Workspace
+              </h1>
+              <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
+                Deploy a dedicated HRM & Attendance environment on our managed cloud or connect your own PostgreSQL database (BYOD).
+              </p>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
-              Create Isolated Organization Workspace
-            </h1>
-            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
-              Deploy a dedicated HRM & Attendance environment on our managed cloud or connect your own PostgreSQL database (BYOD).
-            </p>
           </div>
           <Link
             to="/auth/login"
