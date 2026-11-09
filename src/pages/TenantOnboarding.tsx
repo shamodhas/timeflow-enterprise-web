@@ -298,7 +298,7 @@ export const TenantOnboarding = () => {
                     <input
                       type="text"
                       required={dbMode === "BYOD"}
-                      placeholder="postgresql://user:password@ep-custom.aws.neon.tech/company_hrm?sslmode=require"
+                      placeholder="postgresql://user:password@ep-custom.aws.neon.tech/timeflow_enterprise_client_db?sslmode=require"
                       value={customDatabaseUrl}
                       onChange={(e) => setCustomDatabaseUrl(e.target.value)}
                       className="flex-1 rounded-xl border border-slate-200 dark:border-slate-700 p-2.5 text-xs font-mono bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 outline-none focus:border-blue-500"

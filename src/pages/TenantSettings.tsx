@@ -239,7 +239,7 @@ export const TenantSettings = () => {
           <div className="flex flex-col sm:flex-row gap-3">
             <input
               type="text"
-              placeholder="postgresql://owner:password@custom-host.neon.tech/client_hrm_db?sslmode=require"
+              placeholder="postgresql://owner:password@custom-host.neon.tech/timeflow_enterprise_client_db?sslmode=require"
               value={customDbUrl}
               onChange={(e) => setCustomDbUrl(e.target.value)}
               className="flex-1 rounded-xl border border-slate-200 dark:border-slate-700 p-3 text-xs font-mono bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-100 outline-none focus:border-blue-500"
