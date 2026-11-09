@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  color-scheme: light;
+}
+
+:root.dark {
+  color-scheme: dark;
+}
+
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+@keyframes shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+@keyframes topbar {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(250%); }
+}
+
+.skeleton {
+  background-color: rgb(226 232 240);
+  background-image: linear-gradient(
+    90deg,
+    rgb(226 232 240) 0px,
+    rgb(241 245 249) 200px,
+    rgb(226 232 240) 400px
+  );
+  background-size: 800px 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+
+.dark .skeleton {
+  background-color: rgb(30 41 59);
+  background-image: linear-gradient(
+    90deg,
+    rgb(30 41 59) 0px,
+    rgb(51 65 85) 200px,
+    rgb(30 41 59) 400px
+  );
+}
+
+body {
+  background-color: rgb(241 245 249 / 0.6);
+  color: rgb(15 23 42);
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.dark body {
+  background-color: rgb(2 6 23);
+  color: rgb(248 250 252);
+}
