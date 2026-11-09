@@ -4,7 +4,7 @@ import { refreshAuthToken } from "./auth.service"
 import { useLoaderStore } from "../store/loader.store"
 
 const api = axios.create({
-  baseURL: `${import.meta.env.VITE_API_URL}/api/v1`,
+  baseURL: `${import.meta.env.VITE_API_URL || "http://localhost:3000"}/api/v1`,
   headers: {
     "Content-Type": "application/json"
   }
@@ -14,7 +14,10 @@ const PUBLIC_ENDPOINTS = [
   "/auth/login",
   "/auth/google",
   "/auth/register",
-  "/auth/refresh"
+  "/auth/refresh",
+  "/tenants/resolve",
+  "/tenants/test-db",
+  "/tenants/onboard"
 ]
 
 const isPublicEndpoint = (url?: string): boolean => {
@@ -42,11 +45,14 @@ api.interceptors.request.use(
       useLoaderStore.getState().increment()
     }
 
-    if (!isPublicEndpoint(config.url)) {
-      const token = useAuthStore.getState().token
-      if (token) {
-        config.headers.Authorization = `Bearer ${token}`
-      }
+    const { token, tenantSlug, user } = useAuthStore.getState()
+    const activeSlug = user?.tenantSlug || tenantSlug
+    if (activeSlug && !config.headers["x-workspace-slug"]) {
+      config.headers["x-workspace-slug"] = activeSlug
+    }
+
+    if (!isPublicEndpoint(config.url) && token) {
+      config.headers.Authorization = `Bearer ${token}`
     }
     return config
   },
@@ -91,7 +97,7 @@ api.interceptors.response.use(
           .then((token) => {
             originalRequest.headers.Authorization = `Bearer ${token}`
             if (!originalRequest.headers["X-Skip-Loader"]) {
-              useLoaderStore.getState().increment() 
+              useLoaderStore.getState().increment()
             }
             return api(originalRequest)
           })

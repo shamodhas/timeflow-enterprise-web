@@ -3,13 +3,14 @@ import api from "./api"
 export const login = async (credentials: {
   email: string
   password: string
+  tenantSlug?: string
 }) => {
   const res = await api.post("/auth/login", credentials)
   return res.data
 }
 
-export const googleLogin = async (token: string) => {
-  const res = await api.post("/auth/google", { token })
+export const googleLogin = async (token: string, tenantSlug?: string) => {
+  const res = await api.post("/auth/google", { token, tenantSlug })
   return res.data
 }
 
@@ -18,10 +19,13 @@ export const register = async (formData: any) => {
   return res.data
 }
 
-export const completeRegistration = async (data: { token: string; password: string }) => {
-  const response = await api.post('/api/auth/complete-registration', data);
-  return response.data;
-};
+export const completeRegistration = async (data: {
+  token: string
+  password: string
+}) => {
+  const response = await api.post("/auth/complete-registration", data)
+  return response.data
+}
 
 export const getMe = async () => {
   const res = await api.get("/auth/me")

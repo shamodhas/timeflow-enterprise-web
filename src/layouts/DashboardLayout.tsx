@@ -41,11 +41,12 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
               className="h-10 w-10 rounded-xl shadow-md object-contain"
             />
             <div>
-              <h1 className="text-lg font-black text-slate-900 dark:text-white tracking-tight leading-tight">
-                IJSE<span className="text-red-600 dark:text-red-500">.</span>
+              <h1 className="text-lg font-black text-slate-900 dark:text-white tracking-tight leading-tight uppercase">
+                {user?.tenantSlug || "IJSE"}
+                <span className="text-red-600 dark:text-red-500">.</span>
               </h1>
-              <p className="text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider leading-tight">
-                Institute of Software Engineering
+              <p className="text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider leading-tight truncate max-w-[165px]">
+                {user?.tenantName || "Institute of Software Engineering"}
               </p>
             </div>
           </div>

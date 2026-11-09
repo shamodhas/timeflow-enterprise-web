@@ -23,11 +23,21 @@ export const publicRoutes: RouteConfig[] = [
       import("../../pages/Register").then((m) => ({ default: m.Register }))
     ),
     layout: "BlankLayout"
-  },{
-    path: "/auth/invite/register", 
+  },
+  {
+    path: "/auth/onboard",
     component: lazy(() =>
-      import("../../pages/CompleteRegistration").then((m) => ({ 
-        default: m.CompleteRegistration 
+      import("../../pages/TenantOnboarding").then((m) => ({
+        default: m.TenantOnboarding
+      }))
+    ),
+    layout: "BlankLayout"
+  },
+  {
+    path: "/auth/invite/register",
+    component: lazy(() =>
+      import("../../pages/CompleteRegistration").then((m) => ({
+        default: m.CompleteRegistration
       }))
     ),
     layout: "BlankLayout"
@@ -105,7 +115,18 @@ export const managementRoutes: RouteConfig[] = [
   }
 ]
 
-export const adminsRoutes: RouteConfig[] = []
+export const adminsRoutes: RouteConfig[] = [
+  {
+    path: "/app/admin/tenants",
+    component: lazy(() =>
+      import("../../pages/TenantSettings").then((m) => ({
+        default: m.TenantSettings
+      }))
+    ),
+    layout: "DashboardLayout",
+    roles: ["SUPER_ADMIN", "ADMIN"]
+  }
+]
 
 export const systemRoutes: RouteConfig[] = [
   {

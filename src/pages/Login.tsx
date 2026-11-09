@@ -7,6 +7,7 @@ import { googleLogin, login } from "../services/auth.service"
 export const Login = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [tenantSlug, setTenantSlug] = useState("")
   const [error, setError] = useState("")
 
   const authStore = useAuthStore()
@@ -17,7 +18,15 @@ export const Login = () => {
     setError("")
 
     try {
-      const res = await login({ email, password })
+      const normalizedSlug = tenantSlug.trim().toLowerCase()
+      if (normalizedSlug) {
+        authStore.setTenantSlug(normalizedSlug)
+      }
+      const res = await login({
+        email,
+        password,
+        ...(normalizedSlug ? { tenantSlug: normalizedSlug } : {})
+      })
       authStore.login(res.user, res.token, res.refreshToken)
       navigate("/app/dashboard")
     } catch (err: any) {
@@ -31,7 +40,14 @@ export const Login = () => {
     onSuccess: async (tokenResponse) => {
       setError("")
       try {
-        const res = await googleLogin(tokenResponse.access_token)
+        const normalizedSlug = tenantSlug.trim().toLowerCase()
+        if (normalizedSlug) {
+          authStore.setTenantSlug(normalizedSlug)
+        }
+        const res = await googleLogin(
+          tokenResponse.access_token,
+          normalizedSlug || undefined
+        )
         authStore.login(res.user, res.token, res.refreshToken)
         navigate("/app/dashboard")
       } catch (err: any) {
@@ -45,22 +61,22 @@ export const Login = () => {
   })
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-50 dark:bg-slate-950 p-4 w-full transition-colors">
+    <div className="flex flex-col min-h-screen items-center justify-center bg-slate-50 dark:bg-slate-950 p-4 w-full transition-colors">
       <div className="w-full max-w-md rounded-2xl bg-white dark:bg-slate-900 p-6 sm:p-8 shadow-xl border border-slate-100 dark:border-slate-800 transition-colors">
         <div className="mb-6 flex flex-col items-center text-center">
           <img
             src="/ijse-badge.png"
-            alt="IJSE"
+            alt="TimeFlow Enterprise"
             className="h-16 w-16 rounded-2xl shadow-md object-contain mb-3"
           />
           <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">
-            IJSE
+            TimeFlow <span className="text-blue-600">Enterprise</span>
           </h2>
           <p className="text-xs font-bold text-red-600 dark:text-red-500 uppercase tracking-wider mt-0.5">
-            Institute of Software Engineering
+            Multi-Tenant HRM & Attendance Cloud
           </p>
           <p className="text-xs font-medium text-slate-500 dark:text-slate-400 mt-1">
-            Enterprise HRM & Attendance System
+            Isolated Database-per-Tenant Architecture
           </p>
         </div>
 
@@ -71,6 +87,19 @@ export const Login = () => {
         )}
 
         <form onSubmit={handleEmailLogin} className="space-y-4">
+          <div>
+            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">
+              Workspace Slug (Optional — Auto-Detected by Email)
+            </label>
+            <input
+              type="text"
+              placeholder="e.g. ijse, dialog, mas (leave blank for auto-detect)"
+              className="w-full rounded-xl border border-slate-200 dark:border-slate-700 p-2.5 outline-none focus:border-blue-500 text-xs font-mono text-slate-700 dark:text-slate-200 bg-slate-50 dark:bg-slate-800/70"
+              value={tenantSlug}
+              onChange={(e) => setTenantSlug(e.target.value)}
+            />
+          </div>
+
           <div>
             <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">
               Corporate Email
@@ -141,14 +170,25 @@ export const Login = () => {
           Sign in with Google
         </button>
 
-        <div className="mt-6 text-center text-xs font-medium text-slate-500 dark:text-slate-400">
-          Don't have an account?{" "}
-          <Link
-            to="/auth/register"
-            className="text-blue-600 dark:text-blue-400 hover:underline font-semibold"
-          >
-            Request Access
-          </Link>
+        <div className="mt-6 space-y-2 text-center text-xs font-medium text-slate-500 dark:text-slate-400">
+          <div>
+            Joining an existing workspace?{" "}
+            <Link
+              to="/auth/register"
+              className="text-blue-600 dark:text-blue-400 hover:underline font-semibold"
+            >
+              Request Employee Access
+            </Link>
+          </div>
+          <div className="pt-2 border-t border-slate-100 dark:border-slate-800">
+            Want a dedicated HRM workspace or BYOD database?{" "}
+            <Link
+              to="/auth/onboard"
+              className="text-indigo-600 dark:text-indigo-400 hover:underline font-bold"
+            >
+              Create Organization Workspace &rarr;
+            </Link>
+          </div>
         </div>
       </div>
       <div className="mt-6 text-center text-xs font-medium text-slate-400 dark:text-slate-500">
